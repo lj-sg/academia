@@ -1,0 +1,42 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+    <!-- Botón para ver el perfil -->
+    <a href="{% url 'dashboard:user_profile' %}" class="px-6 py-3 text-lg font-semibold bg-gray-500 text-white rounded-xl hover:bg-gray-700">Ver Perfil</a>
+
+    <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl">My items</h2>
+        </div>
+
+        <div class="grid grid-cols-3 gap-3">
+            {% for item_comprado in items_comprados %}
+                <div>
+                    <a href="{% url 'item:detail' item_comprado.item.id %}">
+                        <div class="image-container">
+                            <img src="{{ item_comprado.item.image.url }}" class="item-image rounded-t-xl">
+                        </div>
+        
+                        <div class="p-6 bg-white rounded-b-xl">
+                            <h2 class="text-2xl">{{ item_comprado.item.name }}</h2>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+
+    <!-- Estilos CSS para las imágenes -->
+    <style>
+        .item-image {
+            width: 100%;
+            height: auto;
+        }
+
+        .image-container {
+            height: 500px;
+            overflow: hidden;
+        }
+    </style>
+{% endblock %}

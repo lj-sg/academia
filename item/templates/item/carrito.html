@@ -1,0 +1,48 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Carrito{% endblock %}
+
+{% block content %}
+    <div class="container mx-auto my-10">
+        <h1 class="text-3xl font-semibold mb-6">Carrito de Compras</h1>
+
+        {% if items_en_carrito %}
+            <table class="min-w-full border border-gray-300">
+                <thead>
+                    <tr>
+                        <th class="py-2 px-4 border-b">Item</th>
+                        <th class="py-2 px-4 border-b">Cantidad</th>
+                        <th class="py-2 px-4 border-b">Precio Unitario</th>
+                        <th class="py-2 px-4 border-b">Subtotal</th>
+                        <th class="py-2 px-4 border-b">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items_en_carrito %}
+                    <tr>
+                        <td class="py-2 px-4 border-b">{{ item.product.name }}</td>
+                        <td class="py-2 px-4 border-b">{{ item.quantity }}</td>
+                        <td class="py-2 px-4 border-b">Q{{ item.product.price }}</td>
+                        <td class="py-2 px-4 border-b">Q{{ item.subtotal }}</td>
+                        <td class="py-2 px-4 border-b">
+                            <form action="{% url 'item:quitar_del_carrito' item_id=item.id %}" method="post">
+                                {% csrf_token %}
+                                <input type="submit" value="Quitar del carrito">
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+                
+                </tbody>
+            </table>
+
+            <div class="mt-6">
+                <p class="text-lg font-semibold">Total: Q{{ total_carrito }}</p>
+                <a href="{% url 'item:procesar_pago' %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Pagar</a>
+            </div>
+
+        {% else %}
+            <p>No hay items en el carrito.</p>
+        {% endif %}
+    </div>
+{% endblock %}

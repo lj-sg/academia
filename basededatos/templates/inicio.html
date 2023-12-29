@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Bienvenido a la Página de Inicio</h2>
+
+    {% if not user.is_authenticated %}
+        <p>Por favor, <a href="{% url 'core:login' %}">inicia sesión</a> para acceder a todas las funciones.</p>
+    {% else %}
+        <p>Bienvenido, {{ user.username }}!</p>
+        <!-- Otras cosas para usuarios autenticados -->
+    {% endif %}
+{% endblock %}
+

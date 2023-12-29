@@ -1,0 +1,58 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Items{% endblock %}
+
+{% block content %}
+
+<a href="{% url 'item:carrito' %}" class="px-6 py-3 text-lg font-semibold bg-gray-500 text-white rounded-xl hover:bg-gray-700">Ver Carrito</a>
+
+<div class="pb-6 grid grid-cols-4 gap-4 bg-gray-100">
+        <div class="col-span-1">
+            <!-- Formulario de búsqueda -->
+            <!-- ... (Código existente) ... -->
+        </div>
+
+        
+        <div class="col-span-3">
+            <div class="grid grid-cols-3 gap-3">
+                {% for item in items %}
+                    {% if item.quantity_available > 0 %}
+                        <div class="item">
+                            <a href="{% url 'item:detail' item.id %}">
+                                <div class="image-container">
+                                    <img src="{{ item.image.url }}" class="rounded-t-xl item-image">
+                                </div>
+            
+                                <div class="p-6 bg-white rounded-b-xl">
+                                    <h2 class="text-2xl">{{ item.name }}</h2>
+                                    <p class="text-gray-500">Precio: Q{{ item.price }}</p>
+                                    <p class="text-gray-500">Disponible: {{ item.quantity_available }}</p>
+                                </div>
+            
+                                <form action="{% url 'item:agregar_al_carrito' item.id %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="px-6 py-3 text-lg font-semibold bg-gray-500 text-white rounded-xl hover:bg-gray-700">
+                                        Agregar al carrito
+                                    </button>
+                                </form>
+                            </a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Estilos CSS para las imágenes -->
+    <style>
+        .item-image {
+            width: 100%; /* Establece el ancho al 100% del contenedor */
+            height: auto; /* Ajusta la altura automáticamente para mantener la proporción */
+        }
+
+        .image-container {
+            height: 500px; /* Puedes ajustar la altura según tus necesidades */
+            overflow: hidden; /* Oculta cualquier parte de la imagen que exceda el contenedor */
+        }
+    </style>
+{% endblock %}
